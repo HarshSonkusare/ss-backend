@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 // const passportLocalMongoose = require('passport-local-mongoose')
 const Events = require('./event');
 const crypto = require("crypto");
-const uuidv1 = require("uuid");
+const uuidv1 = require('uuid').v1;
 
 const UserSchema = new Schema({
     email: {

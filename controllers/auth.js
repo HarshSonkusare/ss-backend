@@ -21,19 +21,7 @@ exports.signup = (req, res) => {
         err: "NOT able to save user in DB",
       });
     }
-    //log the entry
-    // const logger = new Logger();
-    // logger.visitor = user._id;
-    // logger.requestType = "POST";
-    // logger.description = "Signed up for portal";
-    // logger.remoteAddress = req.socket.remoteAddress;
-    // logger.save((err, logger) => {
-    //   if (err) {
-    //     return res.status(400).json({
-    //       err: "NOT able to save LOG in DB",
-    //     });
-    //   }
-    // });
+    
     res.json({
       name: user.name,
       email: user.email,
@@ -69,20 +57,7 @@ exports.signin = (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
     //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
-    //log the entry
-    // const logger = new Logger();
-    // logger.visitor = user._id;
-    // logger.requestType = "GET";
-    // logger.description = "Signed in to portal";
-    // logger.remoteAddress = req.socket.remoteAddress;
-    // logger.save((err, logger) => {
-    //   if (err) {
-    //     return res.status(400).json({
-    //       err: "NOT able to save LOG in DB",
-    //     });
-    //   }
-    // });
-    //send response to front end
+    
     const { _id, name, email } = user;
     return res.json({ token, user: { _id, name, email } });
   });
