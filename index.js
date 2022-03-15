@@ -36,8 +36,8 @@ app.get("/register", (req, res)=>{
 app.get("/payment", (req, res)=>{
     res.send("Insert Payment Portal")
 })
-app.get("/", (req, res)=>{
-    res.send("Home page")
+app.get("/resetPassword/:id", (req, res)=>{
+    res.render("ResetPassword",{ id : req.params.id});
 })
 
 app.use("/", authRoutes);
