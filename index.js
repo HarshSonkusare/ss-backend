@@ -28,9 +28,10 @@ mongoose
   app.use(cors());
 
   app.use('/static',express.static('media'));
-
-app.get("/resetPassword/:id", (req, res)=>{
-    res.render("ResetPassword",{ id : req.params.id});
+  app.use(bodyParser.urlencoded({ extended: false }))
+  
+app.get("/addEvent", (req, res)=>{
+    res.render("addEvent",{});
 })
 // app.use(expressJWT({ secret: process.env.SECRET ,algorithms: ['sha1', 'RS256', 'HS256'],}).unless({ path: ['/', '/login', '/wutangclan'] }));
 app.use("/", authRoutes);

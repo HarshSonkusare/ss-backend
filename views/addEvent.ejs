@@ -1,0 +1,52 @@
+
+<h5 style="font-weight: 700;" class="card-title">Create Event</h5>
+<form action="/event/add" method="POST" class="validated-form" novalidate>
+    <div class="mb-3">
+        <label class="form-label" for="name">Name :</label>
+        <input required class="form-control" type="text" name="name" id="name"
+            >
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="description">Description :</label>
+        <input required class="form-control" type="text" name="description" id="description"
+            >
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="hosted_by">Hosted By :</label>
+        <input required class="form-control" type="text" name="hosted_by" id="hosted_by"
+            >
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="price">Price :</label>
+        <input required class="form-control" type="number" name="price" id="price"
+            >
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <div class="mb-3">
+        <label for="poster">Select a file:</label>
+        <input type="file" id="poster" name="poster">
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <div class="mb-3">
+        <label for="start_date">Start Date(date and time):</label>
+        <input type="datetime-local" id="start_date" name="start_date">
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <div class="mb-3">
+        <label for="start_date">End Date(date and time):</label>
+        <input type="datetime-local" id="end_date" name="end_date">
+        <!-- <div class="valid-feedback">looks good</div> -->
+    </div>
+    <br>
+    <button class="btn btn-success">Submit</button>
+</form>
+                

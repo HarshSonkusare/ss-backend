@@ -6,7 +6,7 @@ const { getAllEvents, addEvent, register_event, getQRCode } = require("../contro
 const upload = require("../utils/upload");
 
 router.get("/event/all", getAllEvents);
-router.post("/event/add", isSignedIn , upload.single("poster") , addEvent);
+router.post("/event/add", upload.single("poster") , addEvent);
 
 router.post("/register/:event_id", isSignedIn, register_event);
 
