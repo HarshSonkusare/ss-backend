@@ -59,7 +59,7 @@ exports.signin = (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
     //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
-    
+
     const { _id, name, email } = user;
     return res.json({ token, user: { _id, name, email } });
   });
@@ -74,9 +74,9 @@ exports.signout = (req, res) => {
 
 //protected routes
 exports.isSignedIn = expressJwt({
-  secret: 'WTINNITW',
-  algorithms: ['RS256'],
+  secret: process.env.SECRET,
   userProperty: "auth",
+  algorithms: ["HS256"],
 });
 
 //custom middlewares

@@ -33,28 +33,22 @@ const UserSchema = new Schema({
         type : String,
         required: false
     },
-    idAdmin : {
+    isAdmin : {
         type: Number,
         default: 0
     },
-    wishlist : [
-        {
-            type: Schema.Types.ObjectId,
-            ref : 'Event'
-        }
-    ],
-    events : [
-        {
-            type : Schema.Types.ObjectId,
-            ref: 'Event'
-        }
-    ],
-    ended : [
-        {
-            type : Schema.Types.ObjectId,
-            ref: 'Event'
-        }
-    ],
+    wishlist : {
+      type: Array,
+      default: [],
+    },
+    events : {
+      type: Array,
+      default: [],
+    },
+    ended : {
+      type: Array,
+      default: [],
+    },
 },
 { timestamps: true }
 )

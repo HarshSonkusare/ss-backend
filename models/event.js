@@ -17,7 +17,6 @@ const EventSchema = new Schema({
     },
     poster: {
         type: String,
-        required: true,
     },
     price : {
         type: Number,
@@ -31,12 +30,10 @@ const EventSchema = new Schema({
         type: Date,
         required : true
     },
-    registered_users : [
-        {
-            type : Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    ]
+    registered_users : {
+        type: Array,
+        default: [],
+    }
 },
 { timestamps: true }
 )

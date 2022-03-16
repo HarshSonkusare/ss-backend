@@ -9,7 +9,7 @@ app.set('view engine', 'ejs')
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-
+const expressJWT = require('express-jwt');
 const authRoutes = require("./routes/auth");
 const eventRoutes = require("./routes/event");
 
@@ -27,8 +27,8 @@ mongoose
   app.use(cookieParser());
   app.use(cors());
 
-  app.use("/media", express.static(path.join(__dirname, "media")));
-  
+  app.use('/static',express.static('media'));
+
 app.get("/login", (req, res)=>{
     res.render("Login");
 })
@@ -41,7 +41,7 @@ app.get("/payment", (req, res)=>{
 app.get("/resetPassword/:id", (req, res)=>{
     res.render("ResetPassword",{ id : req.params.id});
 })
-
+// app.use(expressJWT({ secret: process.env.SECRET ,algorithms: ['sha1', 'RS256', 'HS256'],}).unless({ path: ['/', '/login', '/wutangclan'] }));
 app.use("/", authRoutes);
 app.use("/", eventRoutes);
 
