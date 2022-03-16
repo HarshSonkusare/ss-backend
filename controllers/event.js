@@ -102,3 +102,7 @@ exports.register_event = (req, res) => {
 
     });
 };
+
+exports.getQRCode = (req, res) => {
+    
+};

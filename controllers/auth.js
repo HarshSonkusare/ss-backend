@@ -126,7 +126,7 @@ exports.requestPasswordReset = async (req,res) => {
       },
     });
     var mailOptions = {
-      from: `SpringSpree 22 <sonkus_921922@student.nitw.ac.in>`,
+      from: `SpringSpree 22 <webdev@springspree.in>`,
       to: email,
       subject: "Reset Your Password | SpringSpree NITW",
       text: "Do not share this code with anyone",
@@ -136,7 +136,7 @@ exports.requestPasswordReset = async (req,res) => {
         <div style="color: white;   padding: 1rem auto;   display: flex;   justify-content: center;">
         //   <img style="margin: 1rem auto;   width: 150px;"
         //     src="https://backend.cseanitw.in/media/logos/mail_logo.png"
-        //     alt="CSEA"
+        //     alt="SpringSpree22"
         //   />
         </div>
         <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
@@ -169,24 +169,17 @@ exports.requestPasswordReset = async (req,res) => {
     
               Contact Us:
               <a style="color: white;" style="color: white" href="mailto:csea@student.nitw.ac.in"
-                >csea@student.nitw.ac.in</a
+                >webdev@springspree.in</a
               >
     
               <p style="margin-top: 0.3rem !important;">
                 Visit us on
-                <a style="color: white;" href="https://www.cseanitw.in" target="blank"> Our Website </a> |
-                <a style="color: white;" href="https://www.instagram.com/csea_nitw/" target="blank"
+                <a style="color: white;" href="https://springspree22.in" target="blank"> Our Website </a> |
+                <a style="color: white;" href="https://instagram.com/springspree_nitw?utm_medium=copy_link" target="blank"
                   >Instagram</a
                 >
                 |
-                <a style="color: white;"
-                  href="https://www.linkedin.com/company/csea-nitw/"
-                  target="blank"
-                >
-                  LinkedIn
-                </a>
-                |
-                <a style="color: white;" href="https://www.facebook.com/cseanitw" target="blank">
+                <a style="color: white;" href="https://m.facebook.com/SpringSpree22" target="blank">
                   Facebook
                 </a>
               </p>

@@ -29,15 +29,6 @@ mongoose
 
   app.use('/static',express.static('media'));
 
-app.get("/login", (req, res)=>{
-    res.render("Login");
-})
-app.get("/register", (req, res)=>{
-    res.render("Register");
-})
-app.get("/payment", (req, res)=>{
-    res.send("Insert Payment Portal")
-})
 app.get("/resetPassword/:id", (req, res)=>{
     res.render("ResetPassword",{ id : req.params.id});
 })
