@@ -1,14 +1,23 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const User = require('./user');
 
 const EventSchema = new Schema({
     name : {
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     hosted_by : {
         type: String,
         required: true
+    },
+    poster: {
+        type: String,
+        required: true,
     },
     price : {
         type: Number,
@@ -21,7 +30,15 @@ const EventSchema = new Schema({
     end_date : {
         type: Date,
         required : true
-    }
-})
+    },
+    registered_users : [
+        {
+            type : Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
+},
+{ timestamps: true }
+)
 
-module.exports = mongoose.model('Events', EventSchema)
+module.exports = mongoose.model('Event', EventSchema)

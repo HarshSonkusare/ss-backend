@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 // const passportLocalMongoose = require('passport-local-mongoose')
-const Events = require('./event');
+const Event = require('./event');
 const crypto = require("crypto");
 const uuidv1 = require('uuid').v1;
 
@@ -33,22 +33,26 @@ const UserSchema = new Schema({
         type : String,
         required: false
     },
+    idAdmin : {
+        type: Number,
+        default: 0
+    },
     wishlist : [
         {
             type: Schema.Types.ObjectId,
-            ref : 'Events'
+            ref : 'Event'
         }
     ],
     events : [
         {
             type : Schema.Types.ObjectId,
-            ref: 'Events'
+            ref: 'Event'
         }
     ],
     ended : [
         {
             type : Schema.Types.ObjectId,
-            ref: 'Events'
+            ref: 'Event'
         }
     ],
 },

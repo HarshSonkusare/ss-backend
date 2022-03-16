@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const authRoutes = require("./routes/auth");
+const eventRoutes = require("./routes/event");
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -26,7 +27,8 @@ mongoose
   app.use(cookieParser());
   app.use(cors());
 
-
+  app.use("/media", express.static(path.join(__dirname, "media")));
+  
 app.get("/login", (req, res)=>{
     res.render("Login");
 })
@@ -41,6 +43,7 @@ app.get("/resetPassword/:id", (req, res)=>{
 })
 
 app.use("/", authRoutes);
+app.use("/", eventRoutes);
 
 app.listen(3000,()=> {
     console.log("Started");
