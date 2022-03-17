@@ -7,20 +7,52 @@ const EventSchema = new Schema({
         type: String,
         required: true
     },
+    venue : {
+        type: String,
+        required: true
+    },
+    event_manager : {
+        type: String,
+        required: true
+    },
+    registration_fee : {
+        type: Number,
+        required : true
+    },
+    rounds : {
+        type: Number,
+        // required : true
+    },
+    prize_money : {
+        type: Number,
+        // required : true
+    },
+    no_of_prizes : {
+        type: Number,
+        // required : true
+    },
+    social_media : {
+        type: String,
+        // required : true
+    },
     description: {
         type: String,
         required: true
     },
-    hosted_by : {
+    structure: {
         type: String,
-        required: true
+        // required: true
+    },
+    rules: {
+        type: String,
+        // required: true
+    },
+    judging_criteria: {
+        type: String,
+        // required: true
     },
     poster: {
         type: String,
-    },
-    price : {
-        type: Number,
-        required : true
     },
     start_date : {
         type: Date,

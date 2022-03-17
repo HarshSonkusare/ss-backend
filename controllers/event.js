@@ -87,12 +87,21 @@ exports.register_event = (req, res) => {
             event.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
             event.save();
             user.events.push({
-                            event_id : event._id, 
+                            event_id : event_id, 
                             name : event.name,
+                            venue : event.venue,
+                            event_manager : event.event_manager,
+                            registration_fee : event.registration_fee,
+                            rounds : event.rounds,
+                            prize_money : event.prize_money,
+                            no_of_prizes : event.no_of_prizes,
+                            social_media : event.social_media,
                             description : event.description,
-                            hosted_by : event.hosted_by,
+                            structure : event.structure,
+                            rules : event.rules,
+                            judging_criteria : event.judging_criteria,
                             poster : event.poster,
-                            price : event.price,
+                            used : 0,
                             start_date : event.start_date,
                             end_date : event.end_date
                         });
@@ -104,5 +113,79 @@ exports.register_event = (req, res) => {
 };
 
 exports.getQRCode = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+          error: errors.array()[0].msg,
+        });
+    }
+
     
+
 };
+
+exports.checkQRCode = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+          error: errors.array()[0].msg,
+        });
+    }
+
+    const id = req.params.id;
+    const event_id = req.params.event_id;
+
+    User.findById(id, (err, user)=>{
+        if (err || !user) {
+            return res.status(400).json({ message: "Couldn't find user" });
+        }
+
+        const registeredEvents = user.events;
+        for(let i=0;i<registeredEvents.length;i++){
+            let event = registeredEvents[i];
+            if(event.event_id === event_id){
+                if(event.used == 0){
+                    event['used'] = 1;
+                    registeredEvents[i] =  event;
+                    user.events = registeredEvents;
+                    user.save();
+                    return res.json({
+                        success : true,
+                        message : "You can attend the event." 
+                    });
+                }
+                else{
+                    return res.json({
+                        success : false,
+                        message : "Entry denied."
+                    });
+                }
+            }
+        }
+        return res.json({
+            success : false,
+            message : "You have not registered for the event"
+        })
+    });
+
+};
+
+exports.getRegisteredEvents = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+          error: errors.array()[0].msg,
+        });
+    }
+
+    const id = req.auth._id;
+    User.findById(id, (err, user)=>{
+        if (err || !user) {
+            return res.status(400).json({ message: "Couldn't find user" });
+        }
+
+        res.json({ registeredEvents:user.events});
+
+    });
+
+}

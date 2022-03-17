@@ -3,50 +3,78 @@
 <form action="/event/add" method="POST" class="validated-form" novalidate>
     <div class="mb-3">
         <label class="form-label" for="name">Name :</label>
-        <input required class="form-control" type="text" name="name" id="name"
-            >
-        <!-- <div class="valid-feedback">looks good</div> -->
+        <input required class="form-control" type="text" name="name" id="name">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="venue">Venue :</label>
+        <input required class="form-control" type="text" name="venue" id="venue">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="event_manager">Event Manager :</label>
+        <input required class="form-control" type="text" name="event_manager" id="event_manager">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="registration_fee">Registration Fee :</label>
+        <input required class="form-control" type="number" name="registration_fee" id="registration_fee">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="rounds">Rounds :</label>
+        <input required class="form-control" type="number" name="rounds" id="rounds">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="prize_money">Prize Money :</label>
+        <input required class="form-control" type="number" name="prize_money" id="prize_money">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="no_of_prizes">no_of_prizes :</label>
+        <input required class="form-control" type="number" name="no_of_prizes" id="no_of_prizes">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="social_media">social_media :</label>
+        <input required class="form-control" type="text" name="social_media" id="social_media">
     </div>
     <br>
     <div class="mb-3">
         <label class="form-label" for="description">Description :</label>
-        <input required class="form-control" type="text" name="description" id="description"
-            >
-        <!-- <div class="valid-feedback">looks good</div> -->
+        <input required class="form-control" type="text" name="description" id="description">
     </div>
     <br>
     <div class="mb-3">
-        <label class="form-label" for="hosted_by">Hosted By :</label>
-        <input required class="form-control" type="text" name="hosted_by" id="hosted_by"
-            >
-        <!-- <div class="valid-feedback">looks good</div> -->
+        <label class="form-label" for="structure">structure :</label>
+        <input required class="form-control" type="text" name="structure" id="structure">
     </div>
     <br>
     <div class="mb-3">
-        <label class="form-label" for="price">Price :</label>
-        <input required class="form-control" type="number" name="price" id="price"
-            >
-        <!-- <div class="valid-feedback">looks good</div> -->
+        <label class="form-label" for="rules">Rules :</label>
+        <input required class="form-control" type="text" name="rules" id="rules">
+    </div>
+    <br>
+    <div class="mb-3">
+        <label class="form-label" for="judging_criteria">judging_criteria :</label>
+        <input required class="form-control" type="text" name="judging_criteria" id="judging_criteria">
     </div>
     <br>
     <div class="mb-3">
         <label for="poster">Select a file:</label>
         <input type="file" id="poster" name="poster">
-        <!-- <div class="valid-feedback">looks good</div> -->
     </div>
     <br>
     <div class="mb-3">
         <label for="start_date">Start Date(date and time):</label>
         <input type="datetime-local" id="start_date" name="start_date">
-        <!-- <div class="valid-feedback">looks good</div> -->
     </div>
     <br>
     <div class="mb-3">
         <label for="start_date">End Date(date and time):</label>
         <input type="datetime-local" id="end_date" name="end_date">
-        <!-- <div class="valid-feedback">looks good</div> -->
     </div>
     <br>
     <button class="btn btn-success">Submit</button>
 </form>
-                
