@@ -89,6 +89,7 @@ exports.register_event = (req, res) => {
             user.events.push({
                             event_id : event_id, 
                             name : event.name,
+                            summary : event.summary,
                             venue : event.venue,
                             event_manager : event.event_manager,
                             registration_fee : event.registration_fee,

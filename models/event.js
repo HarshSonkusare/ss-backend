@@ -11,6 +11,10 @@ const EventSchema = new Schema({
         type: String,
         required: true
     },
+    summary : {
+        type: String,
+        // required: true
+    },
     event_manager : {
         type: String,
         required: true
