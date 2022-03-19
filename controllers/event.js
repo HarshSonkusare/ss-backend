@@ -103,6 +103,7 @@ exports.register_event = (req, res) => {
                             judging_criteria : event.judging_criteria,
                             poster : event.poster,
                             used : 0,
+                            category : event.category,
                             start_date : event.start_date,
                             end_date : event.end_date
                         });

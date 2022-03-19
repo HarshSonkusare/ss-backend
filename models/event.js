@@ -55,6 +55,9 @@ const EventSchema = new Schema({
         type: String,
         // required: true
     },
+    category:{
+        type: String,
+    },
     poster: {
         type: String,
     },
