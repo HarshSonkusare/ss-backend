@@ -214,7 +214,7 @@ exports.requestPasswordReset = async (req,res) => {
     await User.findById(userId).exec((err, user) => {
       if (err || !user) {
         return res.status(400).json({
-          id: req.auth._id,
+          id: userId,
           error: "Something unexpected happen",
         });
       }
