@@ -3,7 +3,9 @@ var router = express.Router();
 const Event = require("../models/event");
 const Razorpay = require('razorpay');
 const { isSignedIn } = require("../controllers/auth");
+const { check, validationResult } = require("express-validator");
 // const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const Transaction = require("../models/transaction");
 
 router.post("/:event_id", (req,res,next)=>{
     
@@ -80,7 +82,31 @@ router.post("/verify", (req,res) => {
     });
 
     res.send("Payment Successful");
-})
+});
+
+router.post("/store", (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+          error: errors.array()[0].msg,
+        });
+    }
+
+    // const { event_id, registration_fee, name, email, mobile, event, razorpay_payment_id } = req.body;
+
+    const transaction = new Transaction(req.body);
+    transaction.save((err, tran) => {
+        if (err) {
+            return res.status(400).json({
+              err: "NOT able to save user in DB",
+            });
+          }
+
+        return res.json(tran);
+    });
+
+});
+
 const sendMail =  (email, name, razorpay_payment_id) => {
     var transporter = nodemailer.createTransport({
       service: "Gmail",
