@@ -23,7 +23,21 @@ exports.signup = (req, res) => {
         err: "NOT able to save user in DB",
       });
     }
-    
+    const {email} = req.body;
+  
+    const mail = email.split("@");
+    let success = 0;
+    if(mail[1] === "student.nitw.ac.in"){
+      success = 1;
+    }
+    else{
+      console.log("pay fees");
+    }
+    if(success == 0){
+      return res.status(400).json({
+        err: "Payment unsuccessful, please try again",
+      });
+    }
     res.json({
       name: user.name,
       email: user.email,
