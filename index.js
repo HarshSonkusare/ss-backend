@@ -12,6 +12,7 @@ const cors = require("cors");
 const expressJWT = require('express-jwt');
 const authRoutes = require("./routes/auth");
 const eventRoutes = require("./routes/event");
+const paymentRoutes = require("./routes/payment");
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -36,7 +37,7 @@ app.get("/addEvent", (req, res)=>{
 // app.use(expressJWT({ secret: process.env.SECRET ,algorithms: ['sha1', 'RS256', 'HS256'],}).unless({ path: ['/', '/login', '/wutangclan'] }));
 app.use("/", authRoutes);
 app.use("/", eventRoutes);
-
+app.use("/payment", paymentRoutes);
 app.listen(3000,()=> {
     console.log("Started");
 })
