@@ -45,6 +45,9 @@ exports.contactUs = (req, res) => {
     else if(dept === "sponsorship"){
         sendto = "sponsorship@springspree22.in";
     }
+    else if(dept === "hospitality"){
+        sendto = "hospitality@springspree22.in";
+    }
     else {
         sendto = "ecc@springspree22.in";
     }
