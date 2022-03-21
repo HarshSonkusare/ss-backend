@@ -182,7 +182,7 @@ exports.requestPasswordReset = async (req,res) => {
               NIT Warangal<br />
     
               Contact Us:
-              <a style="color: white;" style="color: white" href="mailto:csea@student.nitw.ac.in"
+              <a style="color: white;" style="color: white" href="mailto:webdev@springspree.in"
                 >webdev@springspree.in</a
               >
     
