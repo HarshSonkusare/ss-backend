@@ -26,7 +26,7 @@ storage: multer.diskStorage({
         prefix = prefix.replace(/ /g, '_');
     //   let d = new Date();
     //   let suffix = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${d.getHours()}-${d.getMinutes()}-${d.getSeconds()}`
-      fileName = prefix+extension;
+      fileName = prefix;
       cb(null, './media');
     },
     filename(req, file, cb) {
