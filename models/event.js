@@ -28,7 +28,7 @@ const EventSchema = new Schema({
         // required : true
     },
     prize_money : {
-        type: Number,
+        type: String,
         // required : true
     },
     no_of_prizes : {
@@ -63,11 +63,11 @@ const EventSchema = new Schema({
     },
     start_date : {
         type: Date,
-        required: true
+        // required: true
     },
     end_date : {
         type: Date,
-        required : true
+        // required : true
     },
     registered_users : {
         type: Array,
