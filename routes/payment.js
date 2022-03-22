@@ -84,8 +84,10 @@ router.post("/verify", (req,res) => {
     res.send("Payment Successful");
 });
 
-router.post("/store", (req, res) => {
+router.post("/store/details", (req, res) => {
+    // console.log("in store ");
     const errors = validationResult(req);
+    // console.log(errors);
     if (!errors.isEmpty()) {
         return res.status(422).json({
           error: errors.array()[0].msg,
@@ -93,12 +95,12 @@ router.post("/store", (req, res) => {
     }
 
     // const { event_id, registration_fee, name, email, mobile, event, razorpay_payment_id } = req.body;
-
+    // console.log(req.body)
     const transaction = new Transaction(req.body);
     transaction.save((err, tran) => {
         if (err) {
             return res.status(400).json({
-              err: "NOT able to save user in DB",
+              err: "NOT able to save transaction details in DB",
             });
           }
 
@@ -191,4 +193,5 @@ const sendMail =  (email, name, razorpay_payment_id) => {
     });
     return mail_sent;
   };
+
 module.exports = router;

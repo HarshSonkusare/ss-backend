@@ -51,9 +51,11 @@ exports.contactUs = (req, res) => {
     else {
         sendto = "ecc@springspree22.in";
     }
-
+    // sendto = "harshsonkusare01@gmail.com";
     sendMail(sendto, message, name, email, mobile);
-
+    res.json({
+        message : "mail sent successfully"
+    })
 };
 
 const sendMail =  (sendto, message, name, email, mobile) => {
@@ -67,7 +69,7 @@ const sendMail =  (sendto, message, name, email, mobile) => {
     var mailOptions = {
       from: `SpringSpree 22 <webdev@springspree.in>`,
       to: sendto,
-      subject: "",
+      subject: `contact us for ${sendto} from ${name}`,
       text: "",
       html: `
     <div style="background-color: rgb(60, 60, 60); margin: -1rem; height: fit-content; color:white!important">
@@ -79,22 +81,16 @@ const sendMail =  (sendto, message, name, email, mobile) => {
         //   />
         </div>
         <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
-          <h3 style="font-weight: 500;color: white !important;">We have received a request for Password Reset</h3>
+          <h3 style="font-weight: 500;color: white !important;">Query from contact us form</h3>
           <div>  
-            <p>
-              <strong style="color: white !important;">Follow this link to Reset Your Password: </strong>
-              <a style="color: blue !important;" href="${link}">Reset Your Password</a>
-            </p>
-            <p>Or Copy This Link: ${link}</p>
-            <br>
-            <p><b>The Link will expire in one hour.</b></p>
-            <small style="color: crimson !important;">Do not share this link with anyone as it contains sensitive information related to your Account.</small>
               <br />
-              <br />
-            <small style="color: aqua !important;">Please do not reply to this mail. It is auto generated and mails sent
-              here are not attended to.</small>
+            <small style="color: aqua !important;"> ${message} </small>
             <br />
             <br />
+            <small style="color: aqua !important;"> From, </small> <br />
+            <small style="color: aqua !important;"> ${name} </small> <br />
+            <small style="color: aqua !important;"> Email - ${email} </small> <br />
+            <small style="color: aqua !important;"> Mobile - ${mobile} </small> <br />
             <footer>
               <hr style="color: gray" />
               <br />
@@ -107,7 +103,7 @@ const sendMail =  (sendto, message, name, email, mobile) => {
               NIT Warangal<br />
     
               Contact Us:
-              <a style="color: white;" style="color: white" href="mailto:csea@student.nitw.ac.in"
+              <a style="color: white;" style="color: white" href="mailto:webdev@springspree.in"
                 >webdev@springspree.in</a
               >
     
