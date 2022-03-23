@@ -31,6 +31,7 @@ exports.signup = (req, res) => {
       success = 1;
     }
     else{
+      success = 1;
       console.log("pay fees");
     }
     if(success == 0){

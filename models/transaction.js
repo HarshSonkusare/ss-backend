@@ -5,6 +5,12 @@ const TransactionSchema = new Schema({
     razorpay_payment_id : {
         type : String,
     },
+    razorpay_order_id : {
+        type : String,
+    },
+    razorpay_signature : {
+        type : String,
+    },
     name : {
         type : String,
     },
