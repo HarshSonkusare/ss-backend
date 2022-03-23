@@ -9,7 +9,7 @@ const nodemailer = require("nodemailer");
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
-  console.log(errors);
+  // console.log(errors);
   if (!errors.isEmpty()) {
     return res.status(422).json({
       error: errors.array()[0].msg,
@@ -17,31 +17,26 @@ exports.signup = (req, res) => {
   }
 
   const user = new User(req.body);
+  const {email} = req.body;
+  
+  const mail = email.split("@");
+
+  if(mail[1] === "student.nitw.ac.in"){
+    user["isAllowed"] = 1;
+  }
+
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
         err: "NOT able to save user in DB",
       });
     }
-    const {email} = req.body;
-  
-    const mail = email.split("@");
-    let success = 0;
-    if(mail[1] === "student.nitw.ac.in"){
-      success = 1;
-    }
-    else{
-      console.log("pay fees");
-    }
-    if(success == 0){
-      return res.status(400).json({
-        err: "Payment unsuccessful, please try again",
-      });
-    }
+    // console.log(user);
     res.json({
       name: user.name,
       email: user.email,
       id: user._id,
+      isAllowed: user.isAllowed,
     });
   });
 };

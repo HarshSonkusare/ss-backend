@@ -37,6 +37,10 @@ const UserSchema = new Schema({
         type: Number,
         default: 0
     },
+    isAllowed : {
+        type: Number,
+        default: 0
+    },
     wishlist : {
       type: Array,
       default: [],
