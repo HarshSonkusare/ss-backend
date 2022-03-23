@@ -1,9 +1,12 @@
 var express = require("express");
 var router = express.Router();
 const Event = require("../models/event");
+const User = require("../models/user");
 const Razorpay = require('razorpay');
 const { isSignedIn } = require("../controllers/auth");
 const { check, validationResult } = require("express-validator");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 // const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const Transaction = require("../models/transaction");
 
@@ -30,7 +33,7 @@ router.post("/:event_id", (req,res,next)=>{
         }).then((order) => {res.send(order)}).catch((err) => {res.send(err)});
     });
 })
-router.post("/verify", (req,res) => {
+router.post("/store/details", (req, res) => {
     const {razorpay_order_id, razorpay_payment_id, razorpay_signature, id, event_id} = req.body;
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET )
                                     .update(razorpay_order_id + '|' + razorpay_payment_id)
@@ -76,15 +79,10 @@ router.post("/verify", (req,res) => {
             user.save();
             // send email to the registered user 
             sendMail(user.email,event.name,razorpay_payment_id);
-            return res.json(user);
         });
 
     });
 
-    res.send("Payment Successful");
-});
-
-router.post("/store/details", (req, res) => {
     // console.log("in store ");
     const errors = validationResult(req);
     // console.log(errors);
@@ -103,8 +101,7 @@ router.post("/store/details", (req, res) => {
               err: "NOT able to save transaction details in DB",
             });
           }
-
-        return res.json(tran);
+        return res.json({...tran, status : "success"});
     });
 
 });
@@ -133,12 +130,7 @@ const sendMail =  (email, name, razorpay_payment_id) => {
         </div>
         <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
           <h3 style="font-weight: 500;color: white !important;">We have received a request for Password Reset</h3>
-          <div>  
-            <p>
-              <strong style="color: white !important;">Follow this link to Reset Your Password: </strong>
-              <a style="color: blue !important;" href="${link}">Reset Your Password</a>
-            </p>
-            <p>Or Copy This Link: ${link}</p>
+          <div>
             <br>
             <p><b>The Link will expire in one hour.</b></p>
             <small style="color: crimson !important;">Do not share this link with anyone as it contains sensitive information related to your Account.</small>
