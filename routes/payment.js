@@ -8,13 +8,35 @@ const { check, validationResult } = require("express-validator");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 // const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const feesBharo = require("../models/feesBharo");
 const Transaction = require("../models/transaction");
 
-router.post("/:event_id", (req,res,next)=>{
-    
-    next();
-} , (req,res) => {
+router.post("/:event_id", (req,res) => {
     const {event_id} = req.params;
+    if(event_id === "623af66854cb17186c255c96"){
+        // feesBharo.findById(event_id, (err, fees) => {
+        //     if(err){
+        //         return res.status(400).json({
+        //             error: "Something Went Wrong!!"
+        //         });
+        //     }
+
+        //     const {registration_fee} = fees;
+        //     // console.log(registration_fee);
+        //     let instance = new Razorpay({
+        //     key_id: process.env.RAZORPAY_KEY_ID,
+        //     key_secret: process.env.RAZORPAY_KEY_SECRET,
+        //     });
+        //     instance.orders.create({
+        //         amount: registration_fee * 100,
+        //         currency: "INR"
+        //     }).then((order) => {res.send(order)}).catch((err) => {res.send(err)});
+    // });
+    feesBharo.find({}, (err, fees) => {
+        console.log(fees[0]);
+    })
+    return;
+    }
     Event.findById(event_id, (err, event) => {
         if(err || !event){
             return res.status(400).json({
@@ -42,6 +64,24 @@ router.post("/store/details", (req, res) => {
         return res.status(400).json({
             error: "Payment failed"
         });
+    }
+    if(event_id === "623af66854cb17186c255c96"){
+        User.findById(id,(err,user) => {
+            if (err || !user) {
+                return res.status(400).json({ message: "Couldn't find user" });
+            }
+            user["isAllowed"] = 1;
+            user.save();
+            feesBharo.findById(event_id, (err, fees) => {
+                if (err || !fees) {
+                    return res.status(400).json({ message: "Couldn't find fees" });
+                }
+                fees.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
+                fees.save();
+                return res.json({status : "success"});
+            });
+        });
+        return;
     }
     Event.findOne({_id:event_id}, (err,event)=>{
         if (err || !event) {
