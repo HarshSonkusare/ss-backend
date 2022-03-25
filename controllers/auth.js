@@ -131,7 +131,7 @@ exports.requestPasswordReset = async (req,res) => {
     //   createdAt: Date.now(),
     // }).save();
     
-    const link = `${process.env.HOST}/resetPassword/${user._id}`;
+    const link = `${process.env.FRONTENDHOST}/resetPassword/${user._id}`;
     sendMail(email,link);
     return res.json({link:`${link}`, message: "Mail Sent to Registered Mail"});
   };
@@ -237,13 +237,7 @@ exports.requestPasswordReset = async (req,res) => {
           error: "Something unexpected happen",
         });
       }
-    //   const hash_token = crypto
-    //                     .createHmac("sha256", user.salt)
-    //                     .update(token)
-    //                     .digest("hex");
-    //   if (hash_token != passwordResetToken.token) {
-    //     return res.status(403).render('resetPassword',{authCode:3, message: "Invalid or expired password reset token"});
-    //   }
+
       const {password1, password2} = req.body;
       if(password1 != password2) {
         return res.status(403).json({ message: "Passwords Do Not match"});
