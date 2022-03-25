@@ -7,6 +7,16 @@ require("dotenv").config();
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
+exports.getUser = (req, res) => {
+  const id = req.auth._id;
+  User.findById(id, (err, user)=>{
+    if (err || !user) {
+      return res.status(400).json({ message: "Couldn't find user" });
+    }
+    return res.json(user);
+  });
+}
+
 exports.signup = (req, res) => {
   const errors = validationResult(req);
   // console.log(errors);
