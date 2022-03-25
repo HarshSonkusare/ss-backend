@@ -115,13 +115,60 @@ exports.register_event = (req, res) => {
                             });
                 user.save();
                 // send email to the registered user 
-                sendMail(user,event,payment);
+                sendMail(user,event.name);
                 return res.json(user);
             });
     
         });
     }
     else{
+        Event.findOne({_id:event_id}, (err,event)=>{
+            if (err || !event) {
+                return res.status(400).json({ message: err.message });
+            }
+            // console.log(event);
+            if(event.registration_fee === 0){
+                User.findById(id,(err,user) => {
+                    if (err || !user) {
+                        return res.status(400).json({ message: "Couldn't find user" });
+                    }
+        
+                    event.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
+                    event.save();
+                    user.events.push({
+                                    event_id : event_id, 
+                                    name : event.name,
+                                    summary : event.summary,
+                                    venue : event.venue,
+                                    event_manager : event.event_manager,
+                                    registration_fee : event.registration_fee,
+                                    rounds : event.rounds,
+                                    prize_money : event.prize_money,
+                                    no_of_prizes : event.no_of_prizes,
+                                    social_media : event.social_media,
+                                    description : event.description,
+                                    structure : event.structure,
+                                    rules : event.rules,
+                                    judging_criteria : event.judging_criteria,
+                                    poster : event.poster,
+                                    used : 0,
+                                    category : event.category,
+                                    start_date : event.start_date,
+                                    end_date : event.end_date
+                                });
+                    user.save();
+                    // send email to the registered user 
+                    sendMail(user,event.name);
+                    return res.json(user);
+                });
+            }
+            else{
+                return res.json({
+                    message:"Pay registration fee and then register"
+                });
+            }
+    
+        });
         return res.json({
             message:"Pay registration fee and then register"
         });
@@ -129,6 +176,94 @@ exports.register_event = (req, res) => {
     
 };
 
+const sendMail =  (email, name) => {
+    var transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+    var mailOptions = {
+      from: `SpringSpree 22 <webdev@springspree.in>`,
+      to: email,
+      subject: `You have successfully registered for ${name}`,
+      text: "",
+      html: `
+    <div style="background-color: rgb(60, 60, 60); margin: -1rem; height: fit-content; color:white!important">
+      <div style=" margin: 0 10vw !important;   background-color: #141414;   min-height: 50vh;   color: white !important; padding: 10%">
+        <div style="color: white;   padding: 1rem auto;   display: flex;   justify-content: center;">
+          <img style="margin: 1rem auto;   width: 150px;"
+            src="${process.env.HOST}/static/ss22.jpeg"
+            alt="SpringSpree22"
+          />
+        </div>
+        <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
+          <h3 style="font-weight: 500;color: white !important;">You have successfully registered for Event ${name}</h3>
+          <div>
+            <br>
+            <p><b>Payment receipt </b></p>
+            <table>
+                <tr>
+                    <td>User Email</td>
+                    <td>${email}</td>
+                </tr>
+                <tr>
+                    <td>Event Name</td>
+                    <td>${name}</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>Success</td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <footer>
+              <hr style="color: gray" />
+              <br />
+    
+              Best Wishes,
+              <br />
+              <br />
+              <b>Spring Spree</b>
+              <br />
+              NIT Warangal<br />
+    
+              Contact Us:
+              <a style="color: white;" style="color: white" href="webdev@springspree.in"
+                >webdev@springspree.in</a
+              >
+    
+              <p style="margin-top: 0.3rem !important;">
+                Visit us on
+                <a style="color: white;" href="https://springspree22.in" target="blank"> Our Website </a> |
+                <a style="color: white;" href="https://instagram.com/springspree_nitw?utm_medium=copy_link" target="blank"
+                  >Instagram</a
+                >
+                |
+                <a style="color: white;" href="https://m.facebook.com/SpringSpree22" target="blank">
+                  Facebook
+                </a>
+              </p>
+            </footer>
+          </div>
+        </div>
+      </div>
+    
+      <!--  -->
+    </div>`,
+    };
+    var mail_sent = false;
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        mail_sent = false;
+      } else {
+        mail_sent = true;
+      }
+    });
+    return mail_sent;
+  };
 
 exports.getQRCode = (req, res) => {
     const errors = validationResult(req);
