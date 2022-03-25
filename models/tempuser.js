@@ -5,7 +5,7 @@ const Event = require('./event');
 const crypto = require("crypto");
 const uuidv1 = require('uuid').v1;
 
-const UserSchema = new Schema({
+const TempUserSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -39,7 +39,7 @@ const UserSchema = new Schema({
     },
     isVerified : {
       type : Number,
-      default : 1234
+      default : 0
     },
     isAllowed : {
         type: Number,
@@ -61,7 +61,7 @@ const UserSchema = new Schema({
 { timestamps: true }
 )
 
-UserSchema
+TempUserSchema
   .virtual("password")
   .set(function (password) {
     this._password = password;
@@ -72,7 +72,7 @@ UserSchema
     return this._password;
   });
 
-UserSchema.methods = {
+TempUserSchema.methods = {
   autheticate: function (plainpassword) {
     return this.securePassword(plainpassword) === this.encry_password;
   },
@@ -90,4 +90,4 @@ UserSchema.methods = {
   },
 };
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('TempUser', TempUserSchema)
