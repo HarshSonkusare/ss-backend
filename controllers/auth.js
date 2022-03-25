@@ -69,8 +69,8 @@ exports.signin = (req, res) => {
     //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
 
-    const { _id, name, email } = user;
-    return res.json({ token, user: { _id, name, email } });
+    const { _id, name, email, isAllowed } = user;
+    return res.json({ token, user: user });
   });
 };
 
@@ -143,10 +143,10 @@ exports.requestPasswordReset = async (req,res) => {
     <div style="background-color: rgb(60, 60, 60); margin: -1rem; height: fit-content; color:white!important">
       <div style=" margin: 0 10vw !important;   background-color: #141414;   min-height: 50vh;   color: white !important; padding: 10%">
         <div style="color: white;   padding: 1rem auto;   display: flex;   justify-content: center;">
-        //   <img style="margin: 1rem auto;   width: 150px;"
-        //     src="https://backend.cseanitw.in/media/logos/mail_logo.png"
-        //     alt="SpringSpree22"
-        //   />
+          <img style="margin: 1rem auto;   width: 150px;"
+            src="${process.env.HOST}/static/ss22.jpeg"
+            alt="SpringSpree22"
+          />
         </div>
         <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
           <h3 style="font-weight: 500;color: white !important;">We have received a request for Password Reset</h3>
@@ -260,4 +260,153 @@ exports.requestPasswordReset = async (req,res) => {
           }
         );
     });
+  };
+
+  exports.verifyEmail = (req, res) => {
+    const user = req.auth;
+    const verificationCode = req.body.verificationCode;
+    User.findById(user._id)
+      .then((user) => {
+        if (user.isVerified === 0) {
+          return res.status(202).json({ message: "Email already Verified" });
+        }
+        if (user.isVerified == verificationCode) {
+          User.findByIdAndUpdate(
+            user._id,
+            { isVerified: 0 },
+            { useFindAndModify: false }
+          )
+            .then((data) => {
+              if (!data) {
+                res.status(400).send({ message: "Cannot update" });
+              } else {
+                res.status(200).json({ message: "Email Verification Done" });
+              }
+            })
+            .catch((err) => {
+              res.status(500).send({ message: err.message });
+            });
+        } else {
+          return res.status(406).json({ message: "Invalid verification Code" });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ message: err });
+      });
+  };
+
+  exports.sendMail = (req, res) => {
+    const user = req.auth;
+    if (!user) {
+      return res.status(406).json({
+        message: "no user found",
+      });
+    }
+    User.findById(user._id)
+      .then((user) => {
+        if (user.isVerified == 0) {
+          return res.status(202).json({
+            message: "User already verified",
+          });
+          
+        } else {
+          const code = Math.floor(Math.random()*(9999-1111+1)+1111);
+          // console.log(code);
+          user["isVerified"] = code;
+          user.save();
+          var transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+              user: process.env.EMAIL,
+              pass: process.env.PASSWORD,
+            },
+          });
+          var mailOptions = {
+            from: `SpringSpree 22 <webdev@springspree.in>`,
+            to: user.email,
+            subject: "Verify Email | SpringSpree NITW",
+            text: "Do not share this code with anyone",
+            html: `
+          <div style="background-color: rgb(60, 60, 60); margin: -1rem; height: fit-content; color:white!important">
+            <div style=" margin: 0 10vw !important;   background-color: #141414;   min-height: 50vh;   color: white !important; padding: 10%">
+              <div style="color: white;   padding: 1rem auto;   display: flex;   justify-content: center;">
+                <img style="margin: 1rem auto;   width: 150px;"
+                  src="${process.env.HOST}/static/ss22.jpeg"
+                  alt="SpringSpree22"
+                />
+              </div>
+              <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
+                <h3 style="font-weight: 500;color: white !important;"></h3>
+                <div>  
+                <p>
+                  Thank You For Registering on our
+                  <a style="color: white;" href="https://springspree22.in/" target="blank">website</a>
+                </p>
+        
+                <p>
+                  <strong style="color: white !important;">Here's your verification code: </strong>
+                  <b><big style="color: white !important;">${user.isVerified}</big></b>
+                </p>
+                    <br />
+                  <small style="color: aqua !important;">Please do not reply to this mail. It is auto generated and mails sent
+                    here are not attended too.</small>
+                  <br />
+                  <br />
+                  <footer>
+                    <hr style="color: gray" />
+                    <br />
+          
+                    Best Wishes,
+                    <br />
+                    <br />
+                    <b>Spring Spree</b>
+                    <br />
+                    NIT Warangal<br />
+          
+                    Contact Us:
+                    <a style="color: white;" style="color: white" href="mailto:webdev@springspree.in"
+                      >webdev@springspree.in</a
+                    >
+          
+                    <p style="margin-top: 0.3rem !important;">
+                      Visit us on
+                      <a style="color: white;" href="https://springspree22.in" target="blank"> Our Website </a> |
+                      <a style="color: white;" href="https://instagram.com/springspree_nitw?utm_medium=copy_link" target="blank"
+                        >Instagram</a
+                      >
+                      |
+                      <a style="color: white;" href="https://m.facebook.com/SpringSpree22" target="blank">
+                        Facebook
+                      </a>
+                    </p>
+                  </footer>
+                </div>
+              </div>
+            </div>
+          
+            <!--  -->
+          </div>`,
+          };
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+              res.status(400).json({
+                message: "Bad request",
+              });
+            } else {
+              res.status(200).json({
+                message: "mail sent",
+              });
+            }
+          });
+          return res.status(200).json({
+            message: "mail sent",
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(400).json({
+          message: "Bad request",
+        });
+        return;
+      });
   };

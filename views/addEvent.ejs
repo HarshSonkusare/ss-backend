@@ -1,13 +1,13 @@
 
 <h5 style="font-weight: 700;" class="card-title">Create Event</h5>
-<form action="/event/add" method="POST" class="validated-form" novalidate>
+<form action="/event/add" method="POST" enctype="multipart/form-data" class="validated-form" novalidate>
     <div class="mb-3">
-        <label class="form-label" for="name">Name :</label>
-        <input required class="form-control" type="text" name="name" id="name">
+        <label class="form-label" for="name">Name *:</label>
+        <input required class="form-control" type="text" name="name" id="name" required>
     </div>
     <br>
     <div class="mb-3">
-        <label class="form-label" for="venue">Venue :</label>
+        <label class="form-label" for="venue">Venue *:</label>
         <input required class="form-control" type="text" name="venue" id="venue">
     </div>
     <br>
@@ -17,12 +17,12 @@
     </div>
     <br>
     <div class="mb-3">
-        <label class="form-label" for="event_manager">Event Manager :</label>
+        <label class="form-label" for="event_manager">Event Manager *:</label>
         <input required class="form-control" type="text" name="event_manager" id="event_manager">
     </div>
     <br>
     <div class="mb-3">
-        <label class="form-label" for="registration_fee">Registration Fee :</label>
+        <label class="form-label" for="registration_fee">Registration Fee *:</label>
         <input required class="form-control" type="number" name="registration_fee" id="registration_fee">
     </div>
     <br>
@@ -47,7 +47,7 @@
     </div>
     <br>
     <div class="mb-3">
-        <label class="form-label" for="description">Description :</label>
+        <label class="form-label" for="description">Description *:</label>
         <input required class="form-control" type="text" name="description" id="description">
     </div>
     <br>

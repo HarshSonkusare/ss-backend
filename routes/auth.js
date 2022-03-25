@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { check, validationResult } = require("express-validator");
-const { signin, signup, signout, requestPasswordReset, resetPassword } = require("../controllers/auth");
+const { signin, signup, signout, requestPasswordReset, resetPassword, isSignedIn, verifyEmail, sendMail } = require("../controllers/auth");
 
 router.post(
   "/signup",
@@ -25,6 +25,9 @@ router.post(
 );
 
 router.get("/signout", signout);
+
+router.post("/verifyEmail", isSignedIn, verifyEmail);
+router.get("/sendMail", isSignedIn, sendMail);
 
 router.post('/resetPasswordRequest',requestPasswordReset);
 router.post('/resetPassword/:id',resetPassword);
