@@ -41,7 +41,15 @@ const UserSchema = new Schema({
       type : Number,
       default : 1234
     },
-    isAllowed : {
+    paidForEvent : {
+        type: Number,
+        default: 0
+    },
+    paidForHospitality : {
+        type: Number,
+        default: 0
+    },
+    paidForProshow : {
         type: Number,
         default: 0
     },

@@ -75,16 +75,13 @@ exports.register_event = (req, res) => {
 
     const id = req.auth._id;
     const event_id = req.params.event_id;
-    const {email} = req.body;
-  
-    const mail = email.split("@");
 
-    if(mail[1] === "student.nitw.ac.in"){
-        Event.findOne({_id:event_id}, (err,event)=>{
-            if (err || !event) {
-                return res.status(400).json({ message: err.message });
-            }
-            // console.log(event);
+    Event.findOne({_id:event_id}, (err,event)=>{
+        if (err || !event) {
+            return res.status(400).json({ message: err.message });
+        }
+        // console.log(event);
+        if(event.registration_fee === 0){
             User.findById(id,(err,user) => {
                 if (err || !user) {
                     return res.status(400).json({ message: "Couldn't find user" });
@@ -118,62 +115,14 @@ exports.register_event = (req, res) => {
                 sendMail(user,event.name);
                 return res.json(user);
             });
-    
-        });
-    }
-    else{
-        Event.findOne({_id:event_id}, (err,event)=>{
-            if (err || !event) {
-                return res.status(400).json({ message: err.message });
-            }
-            // console.log(event);
-            if(event.registration_fee === 0){
-                User.findById(id,(err,user) => {
-                    if (err || !user) {
-                        return res.status(400).json({ message: "Couldn't find user" });
-                    }
-        
-                    event.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
-                    event.save();
-                    user.events.push({
-                                    event_id : event_id, 
-                                    name : event.name,
-                                    summary : event.summary,
-                                    venue : event.venue,
-                                    event_manager : event.event_manager,
-                                    registration_fee : event.registration_fee,
-                                    rounds : event.rounds,
-                                    prize_money : event.prize_money,
-                                    no_of_prizes : event.no_of_prizes,
-                                    social_media : event.social_media,
-                                    description : event.description,
-                                    structure : event.structure,
-                                    rules : event.rules,
-                                    judging_criteria : event.judging_criteria,
-                                    poster : event.poster,
-                                    used : 0,
-                                    category : event.category,
-                                    start_date : event.start_date,
-                                    end_date : event.end_date
-                                });
-                    user.save();
-                    // send email to the registered user 
-                    sendMail(user,event.name);
-                    return res.json(user);
-                });
-            }
-            else{
-                return res.json({
-                    message:"Pay registration fee and then register"
-                });
-            }
-    
-        });
-        return res.json({
-            message:"Pay registration fee and then register"
-        });
-    }
-    
+        }
+        else{
+            return res.json({
+                message:"Pay registration fee and then register"
+            });
+        }
+
+    });
 };
 
 const sendMail =  (email, name) => {
