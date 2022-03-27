@@ -25,7 +25,7 @@ exports.signup = (req, res) => {
       error: errors.array()[0].msg,
     });
   }
-
+  const {password} = req.body;
   const user = new User(req.body);
   const {email} = req.body;
   
@@ -42,11 +42,26 @@ exports.signup = (req, res) => {
       });
     }
     // console.log(user);
-    res.json({
-      name: user.name,
-      email: user.email,
-      id: user._id,
-      isAllowed: user.isAllowed,
+    User.findOne({ email }, (err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: "USER email does not exists",
+        });
+      }
+  
+      if (!user.autheticate(password)) {
+        return res.status(401).json({
+          error: "Email and password do not match",
+        });
+      }
+  
+      //create token
+      const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+      //put token in cookie
+      res.cookie("token", token, { expire: new Date() + 9999 });
+  
+      const { _id, name, email, isAllowed } = user;
+      return res.json({ token, user: user });
     });
   });
 };
