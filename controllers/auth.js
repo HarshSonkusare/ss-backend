@@ -32,7 +32,11 @@ exports.signup = (req, res) => {
   const mail = email.split("@");
 
   if(mail[1] === "student.nitw.ac.in"){
-    user["isAllowed"] = 1;
+    user["paidForEvent"] = 1;
+    user["paidForAccomodation"] = 1;
+    user["paidForProshow1"] = 1;
+    user["paidForProshow2"] = 1;
+    user["paidForProshow3"] = 1;
   }
 
   user.save((err, user) => {
@@ -60,7 +64,6 @@ exports.signup = (req, res) => {
       //put token in cookie
       res.cookie("token", token, { expire: new Date() + 9999 });
   
-      const { _id, name, email, isAllowed } = user;
       return res.json({ token, user: user });
     });
   });
@@ -94,7 +97,6 @@ exports.signin = (req, res) => {
     //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
 
-    const { _id, name, email, isAllowed } = user;
     return res.json({ token, user: user });
   });
 };

@@ -13,9 +13,11 @@ const Transaction = require("../models/transaction");
 
 router.post("/:event_id", (req,res) => {
     const {event_id} = req.params;
-    if(event_id === "623c349874264a5c12781c51"){
+    const {specialEvent} = req.body;
+    if(specialEvent === 1){
         // console.log("special event")
-        feesBharo.findById(event_id, (err, fees) => {
+        const key = req.params.event_id;  
+        feesBharo.findOne({key:key}, (err, fees) => {
             if(err){
                 return res.status(400).json({
                     error: "Something Went Wrong!!"
@@ -60,7 +62,7 @@ router.post("/:event_id", (req,res) => {
     
 })
 router.post("/store/details", (req, res) => {
-    const {razorpay_order_id, razorpay_payment_id, razorpay_signature, id, event_id} = req.body;
+    const {razorpay_order_id, razorpay_payment_id, razorpay_signature, id, event_id, specialEvent} = req.body;
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET )
                                     .update(razorpay_order_id + '|' + razorpay_payment_id)
                                     .digest('hex');
@@ -69,17 +71,36 @@ router.post("/store/details", (req, res) => {
             error: "Payment failed"
         });
     }
-    if(event_id === "623c349874264a5c12781c51"){
+    if(specialEvent === 1){
         User.findById(id,(err,user) => {
             if (err || !user) {
                 return res.status(400).json({ message: "Couldn't find user" });
             }
-            user["isAllowed"] = 1;
-            user.save();
-            feesBharo.findById(event_id, (err, fees) => {
+
+            feesBharo.findOne({key:event_id}, (err, fees) => {
                 if (err || !fees) {
-                    return res.status(400).json({ message: "Couldn't find fees" });
+                    return res.status(400).json({ message: "Couldn't find Event" });
                 }
+                const key = event_id;
+                const events = key.split(',');
+                events.map((e)=>{
+                    if(e==="entry"){
+                        user["paidForEvent"] = 1;
+                    }
+                    else if(e==="accomodation"){
+                        user["paidForAccomodation"] = 1;
+                    }
+                    else if(e==="ps1"){
+                        user["paidForProshow1"] = 1;
+                    }
+                    else if(e==="ps2"){
+                        user["paidForProshow2"] = 1;
+                    }
+                    else if(e==="ps3"){
+                        user["paidForProshow3"] = 1;
+                    }
+                });
+                user.save();
                 fees.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
                 fees.save();
                 sendMail(user.email,fees.name,razorpay_payment_id,fees.registration_fee);

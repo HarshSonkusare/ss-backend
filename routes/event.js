@@ -10,9 +10,9 @@ router.post("/event/add", upload.single("poster") , addEvent);
 
 router.post("/register/:event_id", isSignedIn, register_event);
 
-router.get("/qrCode/:event_id", isSignedIn, getQRCode);
+// router.get("/qrCode/:event_id", isSignedIn, getQRCode);
 
-router.get("/qrCode/check/:id/:event_id", checkQRCode);
+router.get("/qrCode/check/:id", checkQRCode);
 
 router.get("/getRegisteredEvents", isSignedIn, getRegisteredEvents);
 
