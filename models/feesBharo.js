@@ -10,6 +10,10 @@ const feesBharoSchema = new Schema({
         type : String,
         required : true
     },
+    key : {
+        type : String,
+        required : true
+    },
     registered_users : {
         type : Array
     }

@@ -45,11 +45,19 @@ const UserSchema = new Schema({
         type: Number,
         default: 0
     },
-    paidForHospitality : {
+    paidForAccomodation : {
         type: Number,
         default: 0
     },
-    paidForProshow : {
+    paidForProshow1 : {
+        type: Number,
+        default: 0
+    },
+    paidForProshow2 : {
+        type: Number,
+        default: 0
+    },
+    paidForProshow3 : {
         type: Number,
         default: 0
     },
