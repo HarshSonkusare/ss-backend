@@ -51,6 +51,10 @@ const EventSchema = new Schema({
         type: String,
         // required: true
     },
+    disqualification: {
+        type: String,
+        // required: true
+    },
     judging_criteria: {
         type: String,
         // required: true

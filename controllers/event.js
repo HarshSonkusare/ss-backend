@@ -78,7 +78,7 @@ exports.register_event = (req, res) => {
 
     Event.findOne({_id:event_id}, (err,event)=>{
         if (err || !event) {
-            return res.status(400).json({ message: err.message });
+            return res.status(400).json({ message: err});
         }
         // console.log(event);
         if(event.registration_fee === 0){
@@ -103,6 +103,7 @@ exports.register_event = (req, res) => {
                                 description : event.description,
                                 structure : event.structure,
                                 rules : event.rules,
+                                disqualification : event.disqualification,
                                 judging_criteria : event.judging_criteria,
                                 poster : event.poster,
                                 used : 0,

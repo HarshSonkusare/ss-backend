@@ -29,6 +29,10 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
+    gender : {
+        type: String,
+        required: false
+    },
     level : {
         type : String,
         required: false

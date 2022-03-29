@@ -155,6 +155,7 @@ router.post("/store/details", (req, res) => {
                                 description : event.description,
                                 structure : event.structure,
                                 rules : event.rules,
+                                disqualification : event.disqualification,
                                 judging_criteria : event.judging_criteria,
                                 poster : event.poster,
                                 used : 0,
