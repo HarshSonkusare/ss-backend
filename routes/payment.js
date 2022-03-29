@@ -99,6 +99,11 @@ router.post("/store/details", (req, res) => {
                     else if(e==="ps3"){
                         user["paidForProshow3"] = 1;
                     }
+                    else if(e==="ps"){
+                        user["paidForProshow1"] = 1;
+                        user["paidForProshow2"] = 1;
+                        user["paidForProshow3"] = 1;
+                    }
                 });
                 user.save();
                 fees.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
