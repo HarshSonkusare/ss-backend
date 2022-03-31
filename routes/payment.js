@@ -18,7 +18,7 @@ router.post("/:event_id", (req,res) => {
         // console.log("special event")
         const key = req.params.event_id;  
         feesBharo.findOne({key:key}, (err, fees) => {
-            if(err){
+            if(err || !fees){
                 return res.status(400).json({
                     error: "Something Went Wrong!!"
                 });
