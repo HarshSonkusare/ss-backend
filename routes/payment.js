@@ -41,6 +41,14 @@ router.post("/:event_id", (req,res) => {
                         val = (val*registration_fee);
                         val = val/100;
                         registration_fee = registration_fee - val;
+                        let instance = new Razorpay({
+                        key_id: process.env.RAZORPAY_KEY_ID,
+                        key_secret: process.env.RAZORPAY_KEY_SECRET,
+                        });
+                        instance.orders.create({
+                            amount: registration_fee * 100,
+                            currency: "INR"
+                        }).then((order) => {res.send(order)}).catch((err) => {res.send(err)});
                     });
                 }
                 else{
@@ -54,6 +62,14 @@ router.post("/:event_id", (req,res) => {
                                 message: "referral code expired",
                             })
                         }
+                        let instance = new Razorpay({
+                        key_id: process.env.RAZORPAY_KEY_ID,
+                        key_secret: process.env.RAZORPAY_KEY_SECRET,
+                        });
+                        instance.orders.create({
+                            amount: registration_fee * 100,
+                            currency: "INR"
+                        }).then((order) => {res.send(order)}).catch((err) => {res.send(err)});
                     })
                 }
             }
