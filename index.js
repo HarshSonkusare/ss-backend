@@ -14,6 +14,7 @@ const authRoutes = require("./routes/auth");
 const eventRoutes = require("./routes/event");
 const paymentRoutes = require("./routes/payment");
 const contactUSRoutes = require("./routes/contactUs");
+const promoCodeRoutes = require("./routes/promoCode");
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -39,6 +40,7 @@ app.get("/addEvent", (req, res)=>{
 app.use("/", authRoutes);
 app.use("/", eventRoutes);
 app.use("/", contactUSRoutes);
+app.use("/", promoCodeRoutes);
 app.use("/payment", paymentRoutes);
 
 app.listen(3000,()=> {
