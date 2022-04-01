@@ -63,6 +63,9 @@ exports.signup = (req, res) => {
       const token = jwt.sign({ _id: user._id }, process.env.SECRET);
       //put token in cookie
       res.cookie("token", token, { expire: new Date() + 9999 });
+      if(user.isVerified){
+        user.isVerified = 1;
+      }
   
       return res.json({ token, user: user });
     });
@@ -96,7 +99,9 @@ exports.signin = (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
     //put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
-
+    if(user.isVerified){
+      user.isVerified = 1;
+    }
     return res.json({ token, user: user });
   });
 };
