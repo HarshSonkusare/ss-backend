@@ -6,7 +6,6 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const nodemailer = require("nodemailer");
 
-
 exports.getAllEvents = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -21,6 +20,30 @@ exports.getAllEvents = (req, res) => {
               error: "No Events exists",
             });
         }
+        events = events.map((event) => {
+          return {
+            _id : event._id, 
+            name : event.name,
+            summary : event.summary,
+            venue : event.venue,
+            event_manager : event.event_manager,
+            registration_fee : event.registration_fee,
+            rounds : event.rounds,
+            prize_money : event.prize_money,
+            no_of_prizes : event.no_of_prizes,
+            social_media : event.social_media,
+            description : event.description,
+            structure : event.structure,
+            rules : event.rules,
+            disqualification : event.disqualification,
+            judging_criteria : event.judging_criteria,
+            poster : event.poster,
+            category : event.category,
+            start_date : event.start_date,
+            end_date : event.end_date
+          }
+        })
+        
         return res.json(events);
     });
 };
