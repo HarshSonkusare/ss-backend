@@ -337,72 +337,74 @@ exports.checkQRCode = (req, res) => {
           }
         }
         // testing
-        if(day === 1){
-          if(user.paidForProshow1 === 0){
-            return res.json({
-                success : false,
-                message : "You have not registered for the event. Access Denied!"
-            });
+        if(user.name === "temp"){
+          if(day === 1){
+            if(user.paidForProshow1 === 0){
+              return res.json({
+                  success : false,
+                  message : "You have not registered for the event. Access Denied!"
+              });
+            }
+            else if(user.paidForProshow1 === 1){
+              user["paidForProshow1"] = 2;
+              user.save();
+              return res.json({
+                  success : true,
+                  message : "You can attend the Event."
+              });
+            }
+            else if(user.paidForProshow1 === 2){
+              return res.json({
+                  success : false,
+                  message : "You have already used this QR Code. Access Denied!"
+              });
+            }
           }
-          else if(user.paidForProshow1 === 1){
-            user["paidForProshow1"] = 2;
-            user.save();
-            return res.json({
-                success : true,
-                message : "You can attend the Event."
-            });
+          // 9th 
+          else if(day === 2){
+            if(user.paidForProshow2 === 0){
+              return res.json({
+                  success : false,
+                  message : "You have not registered for the event. Access Denied!"
+              });
+            }
+            else if(user.paidForProshow2 === 1){
+              user["paidForProshow2"] = 2;
+              user.save();
+              return res.json({
+                  success : true,
+                  message : "You can attend the Event."
+              });
+            }
+            else if(user.paidForProshow2 === 2){
+              return res.json({
+                  success : false,
+                  message : "You have already used this QR Code. Access Denied!"
+              });
+            }
           }
-          else if(user.paidForProshow1 === 2){
-            return res.json({
-                success : false,
-                message : "You have already used this QR Code. Access Denied!"
-            });
-          }
-        }
-        // 9th 
-        else if(day === 2){
-          if(user.paidForProshow2 === 0){
-            return res.json({
-                success : false,
-                message : "You have not registered for the event. Access Denied!"
-            });
-          }
-          else if(user.paidForProshow2 === 1){
-            user["paidForProshow2"] = 2;
-            user.save();
-            return res.json({
-                success : true,
-                message : "You can attend the Event."
-            });
-          }
-          else if(user.paidForProshow2 === 2){
-            return res.json({
-                success : false,
-                message : "You have already used this QR Code. Access Denied!"
-            });
-          }
-        }
-        //  10th
-        else if(day === 3){
-          if(user.paidForProshow3 === 0){
-            return res.json({
-                success : false,
-                message : "You have not registered for the event. Access Denied!"
-            });
-          }
-          else if(user.paidForProshow3 === 1){
-            user["paidForProshow3"] = 2;
-            user.save();
-            return res.json({
-                success : true,
-                message : "You can attend the Event."
-            });
-          }
-          else if(user.paidForProshow3 === 2){
-            return res.json({
-                success : false,
-                message : "You have already used this QR Code. Access Denied!"
-            });
+          //  10th
+          else if(day === 3){
+            if(user.paidForProshow3 === 0){
+              return res.json({
+                  success : false,
+                  message : "You have not registered for the event. Access Denied!"
+              });
+            }
+            else if(user.paidForProshow3 === 1){
+              user["paidForProshow3"] = 2;
+              user.save();
+              return res.json({
+                  success : true,
+                  message : "You can attend the Event."
+              });
+            }
+            else if(user.paidForProshow3 === 2){
+              return res.json({
+                  success : false,
+                  message : "You have already used this QR Code. Access Denied!"
+              });
+            }
           }
         }
 
