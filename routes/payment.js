@@ -10,6 +10,7 @@ const nodemailer = require("nodemailer");
 // const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const feesBharo = require("../models/feesBharo");
 const Transaction = require("../models/transaction");
+const PromoCode = require("../models/promoCode");
 
 router.post("/:event_id", (req,res) => {
     const {event_id} = req.params;
@@ -94,7 +95,7 @@ router.post("/:event_id", (req,res) => {
     
 })
 router.post("/store/details", (req, res) => {
-    const {razorpay_order_id, razorpay_payment_id, razorpay_signature, id, event_id, specialEvent} = req.body;
+    const {razorpay_order_id, razorpay_payment_id, razorpay_signature, id, event_id, specialEvent, promo} = req.body;
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET )
                                     .update(razorpay_order_id + '|' + razorpay_payment_id)
                                     .digest('hex');
