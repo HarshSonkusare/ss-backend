@@ -27,7 +27,7 @@ router.post("/:event_id", (req,res) => {
             if(key === "entry" && promo){
                 const len = promo.length;
                 if(len <= 7){
-                    PromoCode.findOne({name:promo}, (err, promocode)=>{
+                    PromoCode.findOne({code:promo}, (err, promocode)=>{
                         if (err || !promocode) {
                             return res.status(400).json({ message: "Invalid Promo Code"});
                         }
@@ -36,10 +36,6 @@ router.post("/:event_id", (req,res) => {
                                 message:"promo code expired"
                             });
                         }
-                        let n = promocode.count;
-                        n = n-1;
-                        promocode["count"] = n;
-                        promocode.save();
                         let val = promocode.value;
                         val = (val*registration_fee);
                         val = val/100;
@@ -57,10 +53,6 @@ router.post("/:event_id", (req,res) => {
                                 message: "referral code expired",
                             })
                         }
-                        let n = user.referralCount;
-                        n = n+1;
-                        user["referralCount"] = n;
-                        user.save();
                     })
                 }
             }
@@ -122,6 +114,47 @@ router.post("/store/details", (req, res) => {
                     return res.status(400).json({ message: "Couldn't find Event" });
                 }
                 const key = event_id;
+                let {registration_fee} = fees;
+                if(key === "entry" && promo){
+                    const len = promo.length;
+                    if(len <= 7){
+                        PromoCode.findOne({code:promo}, (err, promocode)=>{
+                            if (err || !promocode) {
+                                return res.status(400).json({ message: "Invalid Promo Code"});
+                            }
+                            if(promocode.count <= 0){
+                                return res.json({
+                                    message:"promo code expired"
+                                });
+                            }
+                            let n = promocode.count;
+                            n = n-1;
+                            promocode["count"] = n;
+                            promocode.save();
+                            let val = promocode.value;
+                            val = (val*registration_fee);
+                            val = val/100;
+                            registration_fee = registration_fee - val;
+                        });
+                    }
+                    else{
+                        const refId = promo;
+                        User.findOne({_id:refId}, (err,user)=>{
+                            if (err || !user) {
+                                return res.status(400).json({ message: "Invalid referral Code"});
+                            }
+                            if(user.referralCount >= 10){
+                                return res.json({
+                                    message: "referral code expired",
+                                })
+                            }
+                            let n = user.referralCount;
+                            n = n+1;
+                            user["referralCount"] = n;
+                            
+                        })
+                    }
+                }
                 const events = key.split(',');
                 events.map((e)=>{
                     if(e==="entry"){
@@ -148,7 +181,7 @@ router.post("/store/details", (req, res) => {
                 user.save();
                 fees.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
                 fees.save();
-                sendMail(user.email,fees.name,razorpay_payment_id,fees.registration_fee);
+                sendMail(user.email,fees.name,razorpay_payment_id,registration_fee);
             });
         });
         // return;
