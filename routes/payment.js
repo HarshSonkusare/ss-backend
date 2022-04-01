@@ -49,7 +49,7 @@ router.post("/:event_id", (req,res) => {
                         if (err || !user) {
                             return res.status(400).json({ message: "Invalid referral Code"});
                         }
-                        if(user.referralCount >= 10){
+                        if(user.referralCount >= 100){
                             return res.json({
                                 message: "referral code expired",
                             })
@@ -144,7 +144,7 @@ router.post("/store/details", (req, res) => {
                             if (err || !user) {
                                 return res.status(400).json({ message: "Invalid referral Code"});
                             }
-                            if(user.referralCount >= 10){
+                            if(user.referralCount >= 100){
                                 return res.json({
                                     message: "referral code expired",
                                 })
