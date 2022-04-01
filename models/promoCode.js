@@ -23,4 +23,4 @@ const promoCodeSchema = new Schema({
     }
 
 });
-module.exports = mongoose.model('feesBharo', promoCodeSchema);
+module.exports = mongoose.model('PromoCode', promoCodeSchema);

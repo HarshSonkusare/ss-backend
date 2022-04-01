@@ -72,3 +72,5 @@ router.post("/checkValidity", (req,res) => {
     }
     
 });
+
+module.exports = router;
