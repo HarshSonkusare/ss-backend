@@ -73,16 +73,19 @@ router.post("/:event_id", (req,res) => {
                     })
                 }
             }
+            else{
+                let instance = new Razorpay({
+                key_id: process.env.RAZORPAY_KEY_ID,
+                key_secret: process.env.RAZORPAY_KEY_SECRET,
+                });
+                instance.orders.create({
+                    amount: registration_fee * 100,
+                    currency: "INR"
+                }).then((order) => {res.send(order)}).catch((err) => {res.send(err)});
+            }
             
             // console.log(registration_fee);
-            let instance = new Razorpay({
-            key_id: process.env.RAZORPAY_KEY_ID,
-            key_secret: process.env.RAZORPAY_KEY_SECRET,
-            });
-            instance.orders.create({
-                amount: registration_fee * 100,
-                currency: "INR"
-            }).then((order) => {res.send(order)}).catch((err) => {res.send(err)});
+            
         });
     // feesBharo.find({}, (err, fees) => {
     //     console.log(fees[0]);
