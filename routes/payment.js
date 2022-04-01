@@ -13,7 +13,7 @@ const Transaction = require("../models/transaction");
 
 router.post("/:event_id", (req,res) => {
     const {event_id} = req.params;
-    const {specialEvent} = req.body;
+    const {specialEvent, promo} = req.body;
     if(specialEvent === 1){
         // console.log("special event")
         const key = req.params.event_id;  
@@ -23,8 +23,48 @@ router.post("/:event_id", (req,res) => {
                     error: "Something Went Wrong!!"
                 });
             }
-
-            const {registration_fee} = fees;
+            let {registration_fee} = fees;
+            if(key === "entry" && promo){
+                const len = promo.length;
+                if(len <= 7){
+                    PromoCode.findOne({name:promo}, (err, promocode)=>{
+                        if (err || !promocode) {
+                            return res.status(400).json({ message: "Invalid Promo Code"});
+                        }
+                        if(promocode.count <= 0){
+                            return res.json({
+                                message:"promo code expired"
+                            });
+                        }
+                        let n = promocode.count;
+                        n = n-1;
+                        promocode["count"] = n;
+                        promocode.save();
+                        let val = promocode.value;
+                        val = (val*registration_fee);
+                        val = val/100;
+                        registration_fee = registration_fee - val;
+                    });
+                }
+                else{
+                    const refId = promo;
+                    User.findOne({_id:refId}, (err,user)=>{
+                        if (err || !user) {
+                            return res.status(400).json({ message: "Invalid referral Code"});
+                        }
+                        if(user.referralCount >= 10){
+                            return res.json({
+                                message: "referral code expired",
+                            })
+                        }
+                        let n = user.referralCount;
+                        n = n+1;
+                        user["referralCount"] = n;
+                        user.save();
+                    })
+                }
+            }
+            
             // console.log(registration_fee);
             let instance = new Razorpay({
             key_id: process.env.RAZORPAY_KEY_ID,

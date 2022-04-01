@@ -41,6 +41,10 @@ const UserSchema = new Schema({
         type: Number,
         default: 0
     },
+    referralCount : {
+        type: Number,
+        default: 0
+    },
     isVerified : {
       type : Number,
       default : 1234
