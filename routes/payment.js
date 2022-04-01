@@ -144,7 +144,7 @@ router.post("/store/details", (req, res) => {
                     return res.status(400).json({ message: "Couldn't find user" });
                 }
     
-                event.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
+                event.registered_users.push({ name:user.name, email:user.email, mobile:user.mobile});
                 event.save();
                 user.events.push({
                                 event_id : event_id, 
@@ -170,7 +170,8 @@ router.post("/store/details", (req, res) => {
                             });
                 user.save();
                 // send email to the registered user 
-                sendMail(user.email,event.name,razorpay_payment_id,event.registration_fee);
+                const text = "You can use QR from Profile page on SpringSpree website for Pro Show Entry";
+                sendMail(user.email,event.name,razorpay_payment_id,event.registration_fee, text);
             });
             
         });
@@ -200,7 +201,7 @@ router.post("/store/details", (req, res) => {
 
 });
 
-const sendMail =  (email, name, razorpay_payment_id, registration_fee) => {
+const sendMail =  (email, name, razorpay_payment_id, registration_fee, text="") => {
     var transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -225,6 +226,7 @@ const sendMail =  (email, name, razorpay_payment_id, registration_fee) => {
         <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
           <h3 style="font-weight: 500;color: white !important;">You have successfully registered for Event ${name}</h3>
           <div>
+            <p>${text}</p>
             <br>
             <p><b>Payment receipt </b></p>
             <table>

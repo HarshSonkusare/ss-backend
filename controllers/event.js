@@ -110,7 +110,7 @@ exports.register_event = (req, res) => {
                     return res.status(400).json({ message: "Couldn't find user" });
                 }
     
-                event.registered_users.push({_id:user._id, name:user.name, email:user.email, mobile:user.mobile});
+                event.registered_users.push({ name:user.name, email:user.email, mobile:user.mobile});
                 event.save();
                 user.events.push({
                                 event_id : event_id, 

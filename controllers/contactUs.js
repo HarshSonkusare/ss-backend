@@ -75,10 +75,10 @@ const sendMail =  (sendto, message, name, email, mobile) => {
     <div style="background-color: rgb(60, 60, 60); margin: -1rem; height: fit-content; color:white!important">
       <div style=" margin: 0 10vw !important;   background-color: #141414;   min-height: 50vh;   color: white !important; padding: 10%">
         <div style="color: white;   padding: 1rem auto;   display: flex;   justify-content: center;">
-        //   <img style="margin: 1rem auto;   width: 150px;"
-        //     src="https://backend.cseanitw.in/media/logos/mail_logo.png"
-        //     alt="SpringSpree22"
-        //   />
+          <img style="margin: 1rem auto;   width: 150px;"
+            src="${process.env.HOST}/static/ss22.jpeg"
+            alt="SpringSpree22"
+          />
         </div>
         <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
           <h3 style="font-weight: 500;color: white !important;">Query from contact us form</h3>
