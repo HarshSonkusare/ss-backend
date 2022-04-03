@@ -364,7 +364,7 @@ exports.requestPasswordReset = async (req,res) => {
               <div style="padding: 0 2rem;   text-align: left;   font-family: "Clash Display", sans-serif;   color: white;">
                 <h3 style="font-weight: 500;color: white !important;"></h3>
                 <div>  
-                <p>
+                <p style="color: white !important;">
                   Thank You For Registering on our
                   <a style="color: white;" href="https://springspree22.in/" target="blank">website</a>
                 </p>

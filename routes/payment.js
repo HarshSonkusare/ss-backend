@@ -159,19 +159,19 @@ router.post("/store/details", (req, res) => {
                     }
                     else{
                         const refId = promo;
-                        User.findOne({_id:refId}, (err,user)=>{
-                            if (err || !user) {
+                        User.findOne({_id:refId}, (err,u)=>{
+                            if (err || !u) {
                                 return res.status(400).json({ message: "Invalid referral Code"});
                             }
-                            if(user.referralCount >= 100){
+                            if(u.referralCount >= 100){
                                 return res.json({
                                     message: "referral code expired",
                                 })
                             }
                             let n = user.referralCount;
                             n = n+1;
-                            user["referralCount"] = n;
-                            
+                            u["referralCount"] = n;
+                            u.save();
                         })
                     }
                 }
