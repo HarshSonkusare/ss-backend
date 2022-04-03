@@ -168,7 +168,7 @@ router.post("/store/details", (req, res) => {
                                     message: "referral code expired",
                                 })
                             }
-                            let n = user.referralCount;
+                            let n = u.referralCount;
                             n = n+1;
                             u["referralCount"] = n;
                             u.save();
