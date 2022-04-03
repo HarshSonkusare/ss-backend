@@ -36,6 +36,9 @@ mongoose
 app.get("/addEvent", (req, res)=>{
     res.render("addEvent",{});
 })
+app.get("/addPromoCode", (req, res)=>{
+  res.render("addPromoCode",{});
+})
 // app.use(expressJWT({ secret: process.env.SECRET ,algorithms: ['sha1', 'RS256', 'HS256'],}).unless({ path: ['/', '/login', '/wutangclan'] }));
 app.use("/", authRoutes);
 app.use("/", eventRoutes);
