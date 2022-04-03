@@ -38,6 +38,8 @@ exports.getAllEvents = (req, res) => {
             disqualification : event.disqualification,
             judging_criteria : event.judging_criteria,
             poster : event.poster,
+            specialEvent : event.specialEvent,
+            key : event.key,
             category : event.category,
             start_date : event.start_date,
             end_date : event.end_date
@@ -126,6 +128,8 @@ exports.register_event = (req, res) => {
                                 description : event.description,
                                 structure : event.structure,
                                 rules : event.rules,
+                                specialEvent : event.specialEvent,
+                                key : event.key,
                                 disqualification : event.disqualification,
                                 judging_criteria : event.judging_criteria,
                                 poster : event.poster,
