@@ -35,6 +35,14 @@ const EventSchema = new Schema({
         type: Number,
         // required : true
     },
+    specialEvent : {
+        type: Number,
+        // required : true
+    },
+    key : {
+        type: String,
+        // required : true
+    },
     social_media : {
         type: String,
         // required : true
