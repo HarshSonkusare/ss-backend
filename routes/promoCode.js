@@ -61,9 +61,7 @@ router.post("/checkValidity", (req,res) => {
                 return res.status(400).json({ message: "Invalid referral Code"});
             }
             if(user.referralCount >= 100){
-                return res.json({
-                    valid: 0,
-                })
+                return res.status(400).json({ message: "Referral Code Expired"});
             }
             return res.json({
                 valid : 1,
