@@ -73,5 +73,45 @@ router.get("/getRegistrationData", (req, res)=>{
     });
 });
 
+router.get("/getUserData", (req,res) => {
+    User.find({}, (err,users) => {
+        if(err || !users){
+            return res.status(400).json({
+                err : err
+            });
+        }
+        let result = [];
+        users.map((u)=>{
+            const email = u.email;
+            const mail = email.split("@");
+
+            if(mail[1] != "student.nitw.ac.in"){
+                let user = {};
+                user['email'] = u.email;
+                user['name'] = u.name;
+                user['mobile'] = u.mobile;
+                user['college'] = u.college;
+                user['level'] = u.level;
+                user['referralCount'] = u.referralCount;
+                user['paidForEvent'] = u.paidForEvent;
+                user['paidForAccomodation'] = u.paidForAccomodation;
+                user['paidForProshow1'] = u.paidForProshow1;
+                user['paidForProshow2'] = u.paidForProshow2;
+                user['paidForProshow3'] = u.paidForProshow3;
+                let event = [];
+
+                u.events.map((e)=>{
+                    event.push(e.name);
+                })
+
+                user['events'] = event;
+
+                result.push(user);
+            }
+        });
+
+        return res.json(result);
+    })
+});
 
 module.exports = router;
