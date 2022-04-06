@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const expressJWT = require('express-jwt');
 const authRoutes = require("./routes/auth");
+const offlineUserRoutes = require("./routes/offlineUser");
 const eventRoutes = require("./routes/event");
 const paymentRoutes = require("./routes/payment");
 const contactUSRoutes = require("./routes/contactUs");
@@ -45,6 +46,7 @@ app.use("/", eventRoutes);
 app.use("/", contactUSRoutes);
 app.use("/", promoCodeRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/", offlineUserRoutes);
 
 app.listen(3000,()=> {
     console.log("Started");
