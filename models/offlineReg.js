@@ -28,6 +28,10 @@ const OfflineUserSchema = new Schema({
         type: String,
         required: true
     },
+    amountPaid : {
+        type: Number,
+        default: 0
+    },
     paidForAccomodation : {
         type: Number,
         default: 0
