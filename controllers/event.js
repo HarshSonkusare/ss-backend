@@ -40,6 +40,7 @@ exports.getAllEvents = (req, res) => {
             poster : event.poster,
             specialEvent : event.specialEvent,
             key : event.key,
+            hide : event.hide,
             category : event.category,
             start_date : event.start_date,
             end_date : event.end_date

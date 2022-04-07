@@ -39,6 +39,11 @@ const EventSchema = new Schema({
         type: Number,
         // required : true
     },
+    hide : {
+        type: Number,
+        // required : true
+        default : 0
+    },
     key : {
         type: String,
         // required : true
