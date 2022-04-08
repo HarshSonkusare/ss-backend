@@ -56,4 +56,31 @@ router.get("/getOfflineUserData", (req, res) => {
     })
 })
 
+router.get("/getAll/offlineUsers", (req,res) => {
+    
+    OfflineUser.find({}, (err,u)=>{
+        if(err || !u){
+            return res.status(400).json({
+                err: "could not find user in database"
+            });
+        }
+        return res.json(u);
+    })
+})
+
+router.put("/updateOfflineUser/:id", (req,res) => {
+    const {id} = req.params;
+    OfflineUser.findOneAndUpdate(
+        { _id: id },
+        { $set: req.body },
+        { new: true, useFindAndModify: false },
+        (err, u) => {
+          if (err || !u) {
+            return res.status(404).json({ message: err });
+          }
+          return res.json(u);
+        }
+      );
+});
+
 module.exports = router;
