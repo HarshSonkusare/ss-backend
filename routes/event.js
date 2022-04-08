@@ -87,6 +87,7 @@ router.get("/getUserData", (req,res) => {
 
             if(mail[1] != "student.nitw.ac.in"){
                 let user = {};
+                user['id'] = u._id;
                 user['email'] = u.email;
                 user['name'] = u.name;
                 user['mobile'] = u.mobile;
