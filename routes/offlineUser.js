@@ -56,9 +56,10 @@ router.get("/getOfflineUserData", (req, res) => {
     })
 })
 
-router.get("/getAll/offlineUsers", (req,res) => {
-    
-    OfflineUser.find({}, (err,u)=>{
+router.get("/getOfflineUser/:email", (req,res) => {
+    const {email} = req.params;
+
+    OfflineUser.findOne({email:email}, (err,u)=>{
         if(err || !u){
             return res.status(400).json({
                 err: "could not find user in database"
