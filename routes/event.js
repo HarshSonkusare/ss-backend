@@ -115,4 +115,37 @@ router.get("/getUserData", (req,res) => {
     })
 });
 
+router.get("/getOnlineUser/:email",(req,res)=>{
+    const {email} = req.params;
+
+    User.findOne({email:email}, (err, u) => {
+        if(err || !u){
+            return res.status(400).json({
+                err: "cannot find user in db"
+            })
+        }
+        let user = {};
+        let event = [];
+
+        u.events.map((e)=>{
+            event.push(e.name);
+        })
+        user['id'] = u._id;
+        user['email'] = u.email;
+        user['name'] = u.name;
+        user['mobile'] = u.mobile;
+        user['college'] = u.college;
+        user['level'] = u.level;
+        user['referralCount'] = u.referralCount;
+        user['paidForEvent'] = u.paidForEvent;
+        user['paidForAccomodation'] = u.paidForAccomodation;
+        user['paidForProshow1'] = u.paidForProshow1;
+        user['paidForProshow2'] = u.paidForProshow2;
+        user['paidForProshow3'] = u.paidForProshow3;
+
+        user['events'] = event;
+        return res.json(user);
+    })
+})
+
 module.exports = router;
