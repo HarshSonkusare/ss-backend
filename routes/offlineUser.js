@@ -16,43 +16,32 @@ router.post("/addUser", (req, res)=>{
 });
 
 router.get("/getOfflineUserData", (req, res) => {
-
+    let result = [];
     OfflineUser.find({}, (err, users)=>{
         if(err || !users){
             return res.status(400).json({
                 err : "cannot find user"
             })
         }
-        let registraion = 0;
-        let accomodation = 0;
-        let ps1 = 0;
-        let ps2 = 0;
-        let ps3 = 0;
-
+        
         users.map((u)=>{
-            registraion += 1;
-            if(u.paidForAccomodation > 0){
-                accomodation += 1;
-            }
-            if(u.paidForProshow1 > 0){
-                ps1 += 1;
-            }
-            if(u.paidForProshow2 > 0){
-                ps2 += 1;
-            }
-            if(u.paidForProshow3 > 0){
-                ps3 += 1;
-            }
+            let user = {};
+            user['id'] = u._id;
+            user['email'] = u.email;
+            user['name'] = u.name;
+            user['mobile'] = u.mobile;
+            user['college'] = u.college;
+            user['paymentMode'] = u.paymentMode;
+            user['transactionId'] = u.transactionId;
+            user['amountPaid'] = u.amountPaid;
+            user['Accomodation'] = u.paidForAccomodation;
+            user['Proshow1'] = u.paidForProshow1;
+            user['Proshow2'] = u.paidForProshow2;
+            user['Proshow3'] = u.paidForProshow3;
+            result.push(user);
         })
 
-        return res.json({
-            'Mode' : "Offline",
-            'Registrations' : registraion,
-            'Accomodation' : accomodation,
-            'Pro Show 1' : ps1,
-            'Pro Show 2' : ps2,
-            'Pro Show 3' : ps3,
-        });
+        return res.json(result);
     })
 })
 
